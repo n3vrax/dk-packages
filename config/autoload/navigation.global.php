@@ -137,6 +137,15 @@ return [
                                 'target' => '_blank'
                             ],
                         ],
+                        [
+                            'options' => [
+                                'label' => 'Packages',
+                                'route' => [
+                                    'route_name' => 'packages',
+                                ],
+                                'icon' => '',
+                            ]
+                        ],
                     ],
                 ],
             ],
