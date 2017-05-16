@@ -9,13 +9,18 @@ declare(strict_types=1);
 
 namespace Frontend\App;
 
+use Dot\AnnotatedServices\Factory\AnnotatedServiceFactory;
 use Dot\Mapper\Factory\DbMapperFactory;
+use Frontend\App\Entity\PackageEntity;
+use Frontend\App\Entity\PackageEntityHydrator;
 use Frontend\App\Entity\UserMessageEntity;
 use Frontend\App\Factory\ContactFormFactory;
 use Frontend\App\Form\ContactForm;
 use Frontend\App\Form\UserMessageFieldset;
 use Frontend\App\Listener\UserMessageMapperEventListener;
+use Frontend\App\Mapper\PackageDbMapper;
 use Frontend\App\Mapper\UserMessageDbMapper;
+use Frontend\App\Service\PackageService;
 use Frontend\App\Service\UserMessageService;
 use Frontend\App\Service\UserMessageServiceInterface;
 use Zend\ServiceManager\Factory\InvokableFactory;
@@ -36,6 +41,19 @@ class ConfigProvider
             'dot_form' => $this->getForms(),
 
             'dot_mapper' => $this->getMappers(),
+
+            'dot_hydrator' => $this->getHydrators(),
+        ];
+    }
+
+    public function getHydrators()
+    {
+        return [
+            'hydrator_manager' => [
+                'factories' => [
+                    PackageEntityHydrator::class => InvokableFactory::class,
+                ]
+            ]
         ];
     }
 
@@ -44,10 +62,12 @@ class ConfigProvider
         return [
             'factories' => [
                 UserMessageService::class => InvokableFactory::class,
+                PackageService::class => AnnotatedServiceFactory::class,
             ],
             'aliases' => [
                 UserMessageServiceInterface::class => UserMessageService::class,
                 'UserMessageService' => UserMessageServiceInterface::class,
+                'PackageService' => PackageService::class,
             ]
         ];
     }
@@ -58,9 +78,11 @@ class ConfigProvider
             'mapper_manager' => [
                 'factories' => [
                     UserMessageDbMapper::class => DbMapperFactory::class,
+                    PackageDbMapper::class => DbMapperFactory::class,
                 ],
                 'aliases' => [
                     UserMessageEntity::class => UserMessageDbMapper::class,
+                    PackageEntity::class => PackageDbMapper::class,
                 ]
             ],
             'options' => [

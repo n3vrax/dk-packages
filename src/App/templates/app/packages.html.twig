@@ -15,59 +15,58 @@
 
         <div class="spacing" style="margin-top: 40px;margin-bottom: 40px;"></div>
         <div class="hline" style="border-bottom: 2px solid #0f1419;"></div></div>
-        <div class="spacing" style="margin-top: 40px;margin-bottom: 40px;"></div>
+    <div class="spacing" style="margin-top: 40px;margin-bottom: 40px;"></div>
 
-        <div id="package-list" class="container" style="display: block; padding-right: 15px;padding-left: 15px;margin-right: auto;margin-left: auto;">
-
+    <div id="package-list" class="container" style="display: block; padding-right: 15px;padding-left: 15px;margin-right: auto;margin-left: auto;">
+        {% for package in data %}
             <div class="row" style="display: block;">
                 <div class="col-sm-12 col-lg-12">
                     <div class="panel panel-default panel-component">
                         <div class="panel-heading">
-                            <h4 id="zendframework/skeleton-application" style="font-weight: 700; color: black;">
-                                zendframework/skeleton-application
-                                <a href="#zendframework/skeleton-application"><small>¶</small></a>
+                            <h4 id="{{ package.name }}" style="font-weight: 700; color: black;">
+                                {{ package.name }}
+                                <a href="#{{ package.name }}"><small>¶</small></a>
                             </h4>
                         </div>
 
                         <div class="panel-body">
-                            <p style="margin-bottom: 15px;font-size: 21px;font-weight: 400;line-height: 24px;color: #0f1419;margin-top: 10px;">Skeleton Application for Zend Framework zend-mvc applications</p>
+                            <p style="margin-bottom: 15px;font-size: 21px;font-weight: 400;line-height: 24px;color: #0f1419;margin-top: 10px;">{{ package.description }}</p>
 
                             <table class="table table-bordered">
                                 <tbody>
-                                    <tr>
-                                        <th class="info" style="color: #0f1419;width: 13em;">Homepage</th>
-                                        <td><a href="http://framework.zend.com/" style="color: #428bca;padding: 0;margin: 0;text-decoration: none;font-weight: 400;">http://framework.zend.com/</a></td>
-                                    </tr>
-                                    <tr>
-                                        <th class="info" style="color: #0f1419;width: 13em;">License</th>
-                                        <td style="color: #0f1419;font-weight: 400;">BSD-3-Clause</td>
-                                    </tr>
-                                    <tr>
-                                        <th class="info" style="color: #0f1419;width: 13em;">Releases</th>
-                                        <td>
-                                            <a style="color: #428bca;padding: 0;margin: 0;text-decoration: none;font-weight: 400;" href="https://packages.zendframework.com/composer/zendframework-skeleton-application-dev-master-688552.zip" title="c95d51c0b58bf6b00323b10e2077baceb89e11f3">dev-master</a>,
-                                            <a style="color: #428bca;padding: 0;margin: 0;text-decoration: none;font-weight: 400;" href="https://packages.zendframework.com/composer/zendframework-skeleton-application-3.0.2-1612f3.zip" title="fdfda33afa350bf6621a9fb8e5d2dbb6cef25023">3.0.2</a>,
-                                            <a style="color: #428bca;padding: 0;margin: 0;text-decoration: none;font-weight: 400;" href="https://packages.zendframework.com/composer/zendframework-skeleton-application-3.0.1-504868.zip" title="2b02130803124168ce12401b753034b0a56e5246">3.0.1</a>,
-                                            <a style="color: #428bca;padding: 0;margin: 0;text-decoration: none;font-weight: 400;" href="https://packages.zendframework.com/composer/zendframework-skeleton-application-3.0.0-a3d572.zip" title="612d96c4538d4c292f2d910700f4cc27ccae4489">3.0.0</a>,
-                                            <a style="color: #428bca;padding: 0;margin: 0;text-decoration: none;font-weight: 400;" href="https://packages.zendframework.com/composer/zendframework-skeleton-application-2.5.0-1d7f9e.zip" title="ece2709cc80ff4391c535cb8a4301257dbca0e19">2.5.0</a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th class="info" style="color: #0f1419;width: 13em;">Required by</th>
-                                        <td>
-                                            <ul>
-                                                <li><a href="#zendframework/zend-mvc-plugin-identity" style="color: #428bca;padding: 0;margin: 0;text-decoration: none;font-weight: 400;">zendframework/zend-mvc-plugin-identity</a></li>
-                                                <li><a href="#zendframework/zendframework" style="color: #428bca;padding: 0;margin: 0;text-decoration: none;font-weight: 400;">zendframework/zendframework</a></li>
-                                                <li><a href="#zfcampus/zf-mvc-auth" style="color: #428bca;padding: 0;margin: 0;text-decoration: none;font-weight: 400;">zfcampus/zf-mvc-auth</a></li>
-                                            </ul>
-                                        </td>
-                                    </tr>
+                                <tr>
+                                    <th class="info" style="color: #0f1419;width: 13em;">Homepage</th>
+                                    <td><a href="{{ package.repository }}" style="color: #428bca;padding: 0;margin: 0;text-decoration: none;font-weight: 400;">{{ package.repository }}</a></td>
+                                </tr>
+                                <tr>
+                                    <th class="info" style="color: #0f1419;width: 13em;">License</th>
+                                    <td style="color: #0f1419;font-weight: 400;">{{ package.license }}</td>
+                                </tr>
+                                <tr>
+                                    <th class="info" style="color: #0f1419;width: 13em;">Releases</th>
+                                    <td>
+                                        {% for version, url in package.versions %}
+                                            <a style="color: #428bca;padding: 0;margin: 0;text-decoration: none;font-weight: 400;" href="{{ url }}">{{ version }}</a>
+                                            {% if not loop.last %},{% endif %}
+                                        {% endfor %}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th class="info" style="color: #0f1419;width: 13em;">Required by</th>
+                                    <td>
+                                        <ul>
+                                            {% for require, url in package.requires %}
+                                                <li><a href="#{{ require }}" style="color: #428bca;padding: 0;margin: 0;text-decoration: none;font-weight: 400;">{{ require }}</a></li>
+                                            {% endfor %}
+                                        </ul>
+                                    </td>
+                                </tr>
                                 </tbody>
                             </table>
                         </div>
                     </div>
                 </div>
             </div>
-
-        </div>
+        {% endfor %}
+    </div>
 {% endblock %}

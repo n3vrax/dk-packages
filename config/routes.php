@@ -4,7 +4,7 @@ use Dot\Authentication\Web\Action\LoginAction;
 use Dot\Authentication\Web\Action\LogoutAction;
 use Dot\User\Controller\UserController as UserController;
 use Frontend\App\Controller\ContactController;
-use Frontend\App\Controller\PackagesController;
+use Frontend\App\Controller\PackageController;
 use Frontend\App\Controller\PageController;
 use Frontend\User\Controller\UserController as FrontendUserController;
 
@@ -46,4 +46,4 @@ $app->route('/user[/{action}]', [FrontendUserController::class, UserController::
 
 $app->route('/contact[/{action}]', [ContactController::class], ['GET', 'POST'], 'contact');
 $app->route('/page[/{action}]', [PageController::class], ['GET', 'POST'], 'page');
-$app->route('/packages[/{action}]', [PackagesController::class], ['GET'], 'packages');
+$app->route('/packages[/{action}]', [PackageController::class], ['GET'], 'packages');
