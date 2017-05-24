@@ -10,9 +10,9 @@ declare(strict_types=1);
 namespace Frontend\App\Service;
 
 use Dot\AnnotatedServices\Annotation\Inject;
-use Dot\Mapper\Mapper\MapperInterface;
 use Dot\Mapper\Mapper\MapperManager;
 use Frontend\App\Entity\PackageEntity;
+use Frontend\App\Mapper\PackageMapperInterface;
 use Packagist\Api\Client;
 use Packagist\Api\Result\Package;
 use Packagist\Api\Result\Result;
@@ -43,10 +43,57 @@ class PackageService
      */
     public function getPackages()
     {
-        /** @var MapperInterface $packageMapper */
+        /** @var PackageMapperInterface $packageMapper */
         $packageMapper = $this->mapperManager->get(PackageEntity::class);
         $packages = $packageMapper->find('all');
+
+        $this->initRequiredByPackages($packages);
+
         return $packages;
+    }
+
+    /**
+     * @param array $packages
+     */
+    private function initRequiredByPackages(array $packages)
+    {
+        $packagesData = [];
+        foreach ($packages as $package) {
+            $packagesData[$package->getId()] = $package;
+        }
+
+        foreach ($packages as $package) {
+            $requiredByPackages = [];
+            foreach ($package->getPackageIdLinks() as $requiredByPackageId) {
+                $requiredByPackages[$packagesData[$requiredByPackageId]->getName()] =
+                    $packagesData[$requiredByPackageId]->getRepository();
+            }
+            $package->setRequiredByPackages($requiredByPackages);
+        }
+    }
+
+    /**
+     * Update package associations
+     */
+    public function updateRequiredByPackages()
+    {
+        /** @var PackageMapperInterface $packageMapper */
+        $packageMapper = $this->mapperManager->get(PackageEntity::class);
+        $packages = $this->getPackages();
+        $packagesIds = [];
+        foreach ($packages as $package) {
+            $packagesIds[$package->getName()] = $package;
+        }
+        foreach ($packages as $package) {
+            $requires = $package->getRequires();
+            $packageMapper->deletePackageLinks($package);
+
+            foreach ($requires as $require => $url) {
+                /** @var PackageEntity $p */
+                $requiredPackage = $packagesIds[$require];
+                $packageMapper->insertRequiredByLink($package, $requiredPackage);
+            }
+        }
     }
 
     /**
@@ -54,7 +101,7 @@ class PackageService
      */
     public function savePackages($packages)
     {
-        /** @var MapperInterface $mapper */
+        /** @var PackageMapperInterface $mapper */
         $mapper = $this->mapperManager->get(PackageEntity::class);
         foreach ($packages as $package) {
             $mapper->save($package);
@@ -66,7 +113,7 @@ class PackageService
         $apiPackages = $this->getPackagesFromApi('dotkernel');
         $existingPackages = $this->getPackages();
 
-        /** @var MapperInterface $packageMapper */
+        /** @var PackageMapperInterface $packageMapper */
         $packageMapper = $this->mapperManager->get(PackageEntity::class);
 
         $packages = [];

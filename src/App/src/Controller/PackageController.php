@@ -60,7 +60,8 @@ class PackageController extends AbstractActionController
      */
     public function indexAction(): ResponseInterface
     {
-        $this->packageService->updateDotKernelPackages();
+        //$this->packageService->updateDotKernelPackages();
+        //$this->packageService->updateRequiredByPackages();
         $packages = $this->packageService->getPackages();
         return new HtmlResponse($this->template('app::packages', ['data' => $packages]));
     }

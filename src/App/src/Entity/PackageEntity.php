@@ -40,6 +40,20 @@ class PackageEntity extends Entity
     /** @var  string */
     protected $requires;
 
+    /** @var array  */
+    protected $packageIdLinks = [];
+
+    /** @var PackageEntity[] */
+    protected $requiredByPackages = [];
+
+    /**
+     * PackageEntity constructor.
+     */
+    public function __construct()
+    {
+        $this->addIgnoredProperties(['requiredByPackages']);
+    }
+
     /**
      * @return int
      */
@@ -152,5 +166,37 @@ class PackageEntity extends Entity
     public function setRequires($requires)
     {
         $this->requires = $requires;
+    }
+
+    /**
+     * @return array
+     */
+    public function getPackageIdLinks(): array
+    {
+        return $this->packageIdLinks;
+    }
+
+    /**
+     * @param array $packageIdLinks
+     */
+    public function setPackageIdLinks(array $packageIdLinks)
+    {
+        $this->packageIdLinks = $packageIdLinks;
+    }
+
+    /**
+     * @return PackageEntity[]
+     */
+    public function getRequiredByPackages(): array
+    {
+        return $this->requiredByPackages;
+    }
+
+    /**
+     * @param PackageEntity[] $requiredByPackages
+     */
+    public function setRequiredByPackages(array $requiredByPackages)
+    {
+        $this->requiredByPackages = $requiredByPackages;
     }
 }

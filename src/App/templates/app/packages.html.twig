@@ -55,7 +55,7 @@
                                     <th class="info" style="color: #0f1419;width: 13em;">Required by</th>
                                     <td>
                                         <ul>
-                                            {% for require, url in package.requires %}
+                                            {% for require, url in package.requiredByPackages %}
                                                 <li><a href="#{{ require }}" style="color: #428bca;padding: 0;margin: 0;text-decoration: none;font-weight: 400;">{{ require }}</a></li>
                                             {% endfor %}
                                         </ul>
