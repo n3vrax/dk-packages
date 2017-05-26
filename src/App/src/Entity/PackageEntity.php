@@ -40,6 +40,9 @@ class PackageEntity extends Entity
     /** @var  string */
     protected $requires;
 
+    /** @var  string */
+    protected $updated;
+
     /** @var array  */
     protected $packageIdLinks = [];
 
@@ -166,6 +169,22 @@ class PackageEntity extends Entity
     public function setRequires($requires)
     {
         $this->requires = $requires;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUpdated(): string
+    {
+        return $this->updated;
+    }
+
+    /**
+     * @param string $updated
+     */
+    public function setUpdated(string $updated)
+    {
+        $this->updated = $updated;
     }
 
     /**

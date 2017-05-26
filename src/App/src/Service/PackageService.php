@@ -10,7 +10,9 @@ declare(strict_types=1);
 namespace Frontend\App\Service;
 
 use Dot\AnnotatedServices\Annotation\Inject;
+use Dot\Mapper\Mapper\MapperInterface;
 use Dot\Mapper\Mapper\MapperManager;
+use Frontend\App\Entity\CronStatEntity;
 use Frontend\App\Entity\PackageEntity;
 use Frontend\App\Mapper\PackageMapperInterface;
 use Packagist\Api\Client;
@@ -19,6 +21,10 @@ use Packagist\Api\Result\Result;
 
 class PackageService
 {
+    const CRON_UPDATE_PACKAGES = 'update_packages';
+    const CRON_INIT_PACKAGES = 'initialize_packages';
+
+
     /** @var  Client */
     protected $client;
 
@@ -45,11 +51,27 @@ class PackageService
     {
         /** @var PackageMapperInterface $packageMapper */
         $packageMapper = $this->mapperManager->get(PackageEntity::class);
-        $packages = $packageMapper->find('all');
+        $packages = $packageMapper->find('all', ['order'=>['name ASC']]);
 
         $this->initRequiredByPackages($packages);
 
         return $packages;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLastUpdated()
+    {
+        /** @var MapperInterface $cronStatMapper */
+        $cronStatMapper = $this->mapperManager->get(CronStatEntity::class);
+        /** @var CronStatEntity[] $cronStat */
+        $cronStat = $cronStatMapper->find('byName', ['cronName' => self::CRON_UPDATE_PACKAGES]);
+        if (!empty($cronStat)) {
+            $cronStat = $cronStat[0];
+        }
+
+        return $cronStat->getLastRun();
     }
 
     /**
@@ -68,6 +90,7 @@ class PackageService
                 $requiredByPackages[$packagesData[$requiredByPackageId]->getName()] =
                     $packagesData[$requiredByPackageId]->getRepository();
             }
+            ksort($requiredByPackages);
             $package->setRequiredByPackages($requiredByPackages);
         }
     }
@@ -110,6 +133,16 @@ class PackageService
 
     public function updateDotKernelPackages()
     {
+        /** @var MapperInterface $cronStatMapper */
+        $cronStatMapper = $this->mapperManager->get(CronStatEntity::class);
+        $cronStat = $cronStatMapper->find('byName', ['cronName' => self::CRON_UPDATE_PACKAGES]);
+        if (empty($cronStat)) {
+            $cronStat = new CronStatEntity();
+            $cronStat->setCronName(self::CRON_UPDATE_PACKAGES);
+        } else {
+            $cronStat = $cronStat[0];
+        }
+
         $apiPackages = $this->getPackagesFromApi('dotkernel');
         $existingPackages = $this->getPackages();
 
@@ -138,6 +171,9 @@ class PackageService
         }
 
         $this->savePackages($packagesToSave);
+
+        $cronStat->setLastRun(date("Y:m:d H:i:s", time()));
+        $cronStatMapper->save($cronStat);
     }
 
 

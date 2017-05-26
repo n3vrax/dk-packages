@@ -11,6 +11,7 @@ namespace Frontend\App;
 
 use Dot\AnnotatedServices\Factory\AnnotatedServiceFactory;
 use Dot\Mapper\Factory\DbMapperFactory;
+use Frontend\App\Entity\CronStatEntity;
 use Frontend\App\Entity\PackageEntity;
 use Frontend\App\Entity\PackageEntityHydrator;
 use Frontend\App\Entity\UserMessageEntity;
@@ -18,6 +19,7 @@ use Frontend\App\Factory\ContactFormFactory;
 use Frontend\App\Form\ContactForm;
 use Frontend\App\Form\UserMessageFieldset;
 use Frontend\App\Listener\UserMessageMapperEventListener;
+use Frontend\App\Mapper\CronStatDbMapper;
 use Frontend\App\Mapper\PackageDbMapper;
 use Frontend\App\Mapper\UserMessageDbMapper;
 use Frontend\App\Service\PackageService;
@@ -79,10 +81,12 @@ class ConfigProvider
                 'factories' => [
                     UserMessageDbMapper::class => DbMapperFactory::class,
                     PackageDbMapper::class => DbMapperFactory::class,
+                    CronStatDbMapper::class => DbMapperFactory::class,
                 ],
                 'aliases' => [
                     UserMessageEntity::class => UserMessageDbMapper::class,
                     PackageEntity::class => PackageDbMapper::class,
+                    CronStatEntity::class => CronStatDbMapper::class,
                 ]
             ],
             'options' => [
