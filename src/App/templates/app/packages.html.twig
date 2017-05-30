@@ -1,62 +1,75 @@
 {% extends '@layout/default.html.twig' %}
 
 {% block title %}Packages{% endblock %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/packages.css') }}"/>
+{% endblock %}
 
 {% block content %}
     <div class="container">
         <div class="row" >
-            <div class="jumbotron" style="margin-top: 75px; background-color: #c71f3a; color: white;">
-                <h1 style="font-weight: 700;">DotKernel 3 Composer Repository</h1>
-                <p id="lastupdate" style="margin-bottom: 15px;font-size: 21px;font-weight: 400;line-height: 24px;color: #0f1419;margin-top: 10px;">
+            <div class="jumbotron">
+                <h1 class="font-weight-700">DotKernel 3 Composer Repository</h1>
+                <p id="lastupdate">
                     Last updated: {{ lastUpdated }} ago
                 </p>
             </div>
         </div>
 
-        <div class="spacing" style="margin-top: 40px;margin-bottom: 40px;"></div>
-        <div class="hline" style="border-bottom: 2px solid #0f1419;"></div></div>
-    <div class="spacing" style="margin-top: 40px;margin-bottom: 40px;"></div>
+        <div class="row">
+            <div class="col-sm-12 col-lg-12">
+                <h3 class="search-h3">
+                    Filter by package name:
+                </h3>
+                <input class="search-input" type="text" id="search" title="search" autocomplete="off" autofocus="">
+            </div>
+        </div>
 
-    <div id="package-list" class="container" style="display: block; padding-right: 15px;padding-left: 15px;margin-right: auto;margin-left: auto;">
+        <div class="spacing"></div>
+        <div class="hline"></div>
+    </div>
+    <div class="spacing"></div>
+
+    <div id="package-list" class="container">
         {% for package in data %}
             <div class="row" style="display: block;">
                 <div class="col-sm-12 col-lg-12">
                     <div class="panel panel-default panel-component">
                         <div class="panel-heading">
-                            <h4 id="{{ package.name }}" style="font-weight: 700; color: black;">
+                            <h4 id="{{ package.name }}">
                                 {{ package.name }}
                                 <a href="#{{ package.name }}"><small>¶</small></a>
                             </h4>
                         </div>
 
                         <div class="panel-body">
-                            <p style="margin-bottom: 15px;font-size: 21px;font-weight: 400;line-height: 24px;color: #0f1419;margin-top: 10px;">{{ package.description }}</p>
+                            <p>{{ package.description }}</p>
 
                             <table class="table table-bordered">
                                 <tbody>
                                 <tr>
-                                    <th class="info" style="color: #0f1419;width: 13em;">Homepage</th>
-                                    <td><a href="{{ package.repository }}" style="color: #428bca;padding: 0;margin: 0;text-decoration: none;font-weight: 400;">{{ package.repository }}</a></td>
+                                    <th class="info">Homepage</th>
+                                    <td><a href="{{ package.repository }}" class="repository" target="_blank">{{ package.repository }}</a></td>
                                 </tr>
                                 <tr>
-                                    <th class="info" style="color: #0f1419;width: 13em;">License</th>
+                                    <th class="info">License</th>
                                     <td style="color: #0f1419;font-weight: 400;">{{ package.license }}</td>
                                 </tr>
                                 <tr>
-                                    <th class="info" style="color: #0f1419;width: 13em;">Releases</th>
+                                    <th class="info">Releases</th>
                                     <td>
                                         {% for version, url in package.versions %}
-                                            <a style="color: #428bca;padding: 0;margin: 0;text-decoration: none;font-weight: 400;" href="{{ url }}">{{ version }}</a>
+                                            <a class="url-style"  href="{{ url }}">{{ version }}</a>
                                             {% if not loop.last %},{% endif %}
                                         {% endfor %}
                                     </td>
                                 </tr>
                                 <tr>
-                                    <th class="info" style="color: #0f1419;width: 13em;">Required by</th>
+                                    <th class="info">Required by</th>
                                     <td>
                                         <ul>
                                             {% for require, url in package.requiredByPackages %}
-                                                <li><a href="#{{ require }}" style="color: #428bca;padding: 0;margin: 0;text-decoration: none;font-weight: 400;">{{ require }}</a></li>
+                                                <li><a class="url-style" href="#{{ require }}">{{ require }}</a></li>
                                             {% endfor %}
                                         </ul>
                                     </td>
@@ -69,4 +82,7 @@
             </div>
         {% endfor %}
     </div>
+{% endblock %}
+{% block javascript %}
+    <script src="{{ asset('js/search.js') }}"></script>
 {% endblock %}
