@@ -1,12 +1,6 @@
 <?php
 
-use Dot\Authentication\Web\Action\LoginAction;
-use Dot\Authentication\Web\Action\LogoutAction;
-use Dot\User\Controller\UserController as UserController;
-use Frontend\App\Controller\ContactController;
 use Frontend\App\Controller\PackageController;
-use Frontend\App\Controller\PageController;
-use Frontend\User\Controller\UserController as FrontendUserController;
 
 /**
  * Setup routes with a single request method:
@@ -37,13 +31,4 @@ use Frontend\User\Controller\UserController as FrontendUserController;
 
 /** @var \Zend\Expressive\Application $app */
 
-$app->route('/', [PageController::class], ['GET', 'POST'], 'home');
-
-// following three routes are for user functionality
-$app->route('/user/login', LoginAction::class, ['GET', 'POST'], 'login');
-$app->route('/user/logout', LogoutAction::class, ['GET'], 'logout');
-$app->route('/user[/{action}]', [FrontendUserController::class, UserController::class], ['GET', 'POST'], 'user');
-
-$app->route('/contact[/{action}]', [ContactController::class], ['GET', 'POST'], 'contact');
-$app->route('/page[/{action}]', [PageController::class], ['GET', 'POST'], 'page');
-$app->route('/packages[/{action}]', [PackageController::class], ['GET'], 'packages');
+$app->route('/', [PackageController::class], ['GET'], 'packages');

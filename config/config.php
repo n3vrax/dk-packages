@@ -23,12 +23,8 @@ $aggregator = new ConfigAggregator([
     // you should not include both zendframework config provider and dotkernel's config provider in this case
     // e.g: dot-filter, dot-paginator, dot-session etc.
     \Dot\AnnotatedServices\ConfigProvider::class,
-    \Dot\Authentication\ConfigProvider::class,
-    \Dot\Authentication\Web\ConfigProvider::class,
     \Dot\Cache\ConfigProvider::class,
     \Dot\Controller\ConfigProvider::class,
-    \Dot\Controller\Plugin\Authentication\ConfigProvider::class,
-    \Dot\Controller\Plugin\Authorization\ConfigProvider::class,
     \Dot\Controller\Plugin\FlashMessenger\ConfigProvider::class,
     \Dot\Controller\Plugin\Mail\ConfigProvider::class,
     \Dot\Controller\Plugin\Forms\ConfigProvider::class,
@@ -45,15 +41,11 @@ $aggregator = new ConfigAggregator([
     \Dot\Mail\ConfigProvider::class,
     \Dot\Navigation\ConfigProvider::class,
     \Dot\Paginator\ConfigProvider::class,
-    \Dot\Rbac\ConfigProvider::class,
-    \Dot\Rbac\Guard\ConfigProvider::class,
     \Dot\Session\ConfigProvider::class,
     \Dot\Twig\ConfigProvider::class,
-    \Dot\User\ConfigProvider::class,
     \Dot\Validator\ConfigProvider::class,
 
     //application
-    \Frontend\User\ConfigProvider::class,
     \Frontend\App\ConfigProvider::class,
 
     // Load application config in a pre-defined order in such a way that local settings

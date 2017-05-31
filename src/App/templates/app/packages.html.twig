@@ -6,15 +6,15 @@
 {% endblock %}
 
 {% block content %}
-    <div class="container">
-        <div class="row" >
-            <div class="jumbotron">
-                <h1 class="font-weight-700">DotKernel 3 Composer Repository</h1>
-                <p id="lastupdate">
-                    Last updated: {{ lastUpdated }} ago
-                </p>
-            </div>
+    <div class="main_page_title">
+        <div class="row">
+            <section id="themo_page_header_1" class="page-title left">
+                <h1>DotKernel 3 Composer Repository</h1>
+            </section>
         </div>
+    </div>
+    <div class="container">
+
 
         <div class="row">
             <div class="col-sm-12 col-lg-12">
@@ -53,7 +53,7 @@
                                 </tr>
                                 <tr>
                                     <th class="info">License</th>
-                                    <td style="color: #0f1419;font-weight: 400;">{{ package.license }}</td>
+                                    <td class="license">{{ package.license }}</td>
                                 </tr>
                                 <tr>
                                     <th class="info">Releases</th>
@@ -81,6 +81,49 @@
                 </div>
             </div>
         {% endfor %}
+    </div>
+{% endblock %}
+{% block footer %}
+    <div class="footer-btm-bar">
+        <div class="container">
+            <div class="footer-copyright row">
+                <div class="col-xs-12">
+                    <ul>
+                        <li>
+                            <a href="https://www.dotkernel.com/" target="_blank">
+                                <img src="https://docs.dotkernel.com/assets/images/dk.png">DotKernel 3 Official Site
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://github.com/dotkernel/" target="_blank">
+                                <img src="https://docs.dotkernel.com/assets/images/github.png">DotKernel 3 at Github
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://stackoverflow.com/questions/tagged/dotkernel3" target="_blank">
+                                <img src="https://docs.dotkernel.com/assets/images/stack.png">DotKernel 3 at Stackoverflow
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://packagist.org/search/?q=dotkernel/" target="_blank">
+                                <img src="https://docs.dotkernel.com/assets/images/packagist.png">DotKernel at Packagist
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://gitter.im/dotkernel3" target="_blank">
+                                <img src="https://docs.dotkernel.com/assets/images/gitter.png">DotKernel 3 at Gitter
+                            </a>
+                        </li>
+                    </ul>
+                    <p>
+                        <span class="footer_copy">
+                            &copy; 2009 - 2016 DotBoost Technologies Inc.
+                            <br>&copy; {{ "now"|date("Y") }} Apidemia Inc.
+                        </span>
+                    </p>
+                </div>
+            </div>
+        </div>
     </div>
 {% endblock %}
 {% block javascript %}

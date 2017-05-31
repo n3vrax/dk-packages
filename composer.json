@@ -1,12 +1,12 @@
 {
-  "name": "n3vrax/dk-packages",
+  "name": "dotkernel/app-packages",
   "description": "DotKernel packages list",
   "type": "project",
   "license": "MIT",
   "authors": [
     {
-      "name": "n3vrax",
-      "email": "tibi@apidemia.com"
+      "name": "bircaandrian",
+      "email": "andi@apidemia.com"
     }
   ],
   "config": {
@@ -15,12 +15,8 @@
   "require": {
     "php": "^7.1",
     "dotkernel/dot-annotated-services": "^1.1",
-    "dotkernel/dot-authentication-service": "^0.2",
-    "dotkernel/dot-authentication-web": "^0.2",
     "dotkernel/dot-cache": "^1.1",
     "dotkernel/dot-controller": "^0.3",
-    "dotkernel/dot-controller-plugin-authentication": "^0.2",
-    "dotkernel/dot-controller-plugin-authorization": "^0.2",
     "dotkernel/dot-controller-plugin-flashmessenger": "^0.2",
     "dotkernel/dot-controller-plugin-forms": "^0.2",
     "dotkernel/dot-controller-plugin-mail": "^0.1",
@@ -37,11 +33,8 @@
     "dotkernel/dot-mapper": "^0.4",
     "dotkernel/dot-navigation": "^0.2",
     "dotkernel/dot-paginator": "^1.1",
-    "dotkernel/dot-rbac": "^0.2",
-    "dotkernel/dot-rbac-guard": "^0.2",
     "dotkernel/dot-session": "^2.0",
     "dotkernel/dot-twigrenderer": "^0.2",
-    "dotkernel/dot-user": "^0.3",
     "dotkernel/dot-validator": "^1.1",
     "knplabs/packagist-api": "^1.3",
     "roave/security-advisories": "dev-master",
@@ -73,7 +66,6 @@
   "autoload": {
     "psr-4": {
       "Frontend\\App\\": "src/App/src",
-      "Frontend\\User\\": "src/User/src",
       "Frontend\\Console\\": "src/Console/src"
     }
   },
